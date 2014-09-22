@@ -1,3 +1,8 @@
+<script>
+    $(document).ready(function(){
+        $("[data-toggle='tooltip']").tooltip();
+    });
+</script>
 {% if page_title|length > 0 %} {# for module news on main - have no title #}
     <ol class="breadcrumb">
         <li><a href="{{ system.url }}">{{ language.global_main }}</a></li>
@@ -18,15 +23,15 @@
         <div class="col-md-6">
             <article class="article-item" itemscope="itemscope" itemtype="http://schema.org/NewsArticle">
                 <div class="thumbnail">
-                    <h2 itemprop="name"><a href="{{ system.url }}/video/{{ videodata.full_video_uri }}">{% if videodata.important > 0 %}<i class="fa fa-paperclip"></i> {% endif %}{{ videodata.title[:20] }}...</a></h2>
+                    <h2 itemprop="name"><a href="{{ system.url }}/video/{{ videodata.full_video_uri }}" data-toggle="tooltip" data-placement="top" title="{{ videodata.title }}">{% if videodata.important > 0 %}<i class="fa fa-paperclip"></i> {% endif %}{{ videodata.title[:20] }}...</a></h2>
                     <div class="meta">
                         <span><i class="fa fa-list"></i><a href="{{ system.url }}/video/{{ videodata.category_url }}" itemprop="genre">{{ videodata.category_name }}</a></span>
                         <span><i class="fa fa-calendar"></i><time datetime="{{ videodata.unixtime|date("c") }}" itemprop="datePublished">{{ videodata.date }}</time></span>
                     </div>
                     {% if videodata.poster %}
-                        <img alt="{{ videodata.title }}" src="{{ videodata.poster }}" class="img-responsive">
+                        <img alt="{{ videodata.title }}" src="{{ videodata.poster }}" class="img-responsive" style="display: table;margin: 0 auto;">
                     {% else %}
-                        <img src="{{ system.script_url }}/resource/cmscontent/video-empty.jpg" class="img-responsive img-thumbnail" alt="no poster" />
+                        <img src="{{ system.script_url }}/resource/cmscontent/video-empty.jpg" class="img-responsive img-thumbnail" style="display: table;margin: 0 auto;" alt="no poster" />
                     {% endif %}
 
                     <div class="caption">
