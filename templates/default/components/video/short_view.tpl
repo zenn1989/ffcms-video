@@ -22,7 +22,6 @@
                     <div class="meta">
                         <span><i class="fa fa-list"></i><a href="{{ system.url }}/video/{{ videodata.category_url }}" itemprop="genre">{{ videodata.category_name }}</a></span>
                         <span><i class="fa fa-calendar"></i><time datetime="{{ videodata.unixtime|date("c") }}" itemprop="datePublished">{{ videodata.date }}</time></span>
-                        <span><i class="fa fa-eye"></i> {{ videodata.view_count }}</span>
                     </div>
                     {% if videodata.poster %}
                         <img alt="{{ videodata.title }}" src="{{ videodata.poster }}" class="img-responsive">
@@ -43,7 +42,7 @@
                             {% endif %}
                         </div>
                         <p class="text-center">
-                            <a href="{{ system.url }}/video/{{ videodata.full_video_uri }}" itemprop="url" class="btn btn-primary"><i class="fa fa-share"></i> {{ language.video_view_more }}</a>
+                            <a href="{{ system.url }}/video/{{ videodata.full_video_uri }}" itemprop="url" class="btn btn-primary"><i class="fa fa-eye"></i> {{ videodata.view_count }} {{ language.video_view_more }}</a>
                             <a href="{{ system.url }}/video/{{ videodata.full_video_uri }}#comment_load" class="btn btn-success"><i class="fa fa-comments"></i> {{ language.video_view_comments }}: <span itemprop="commentCount">{{ videodata.comment_count }}</span></a>
                         </p>
                     </div>
