@@ -71,7 +71,7 @@ class components_video_front {
                 'poster' => $poster
             );
         }
-
+        meta::getInstance()->add('title', language::getInstance()->get('video_category_title'));
         $params['video_sort_type'] = 'categorys';
         return template::getInstance()->twigRender('components/video/view_categorys.tpl', $params);
     }
