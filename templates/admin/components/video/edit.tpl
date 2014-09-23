@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="{{ system.theme }}/css/fileupload/jquery.fileupload.css">
 <script type="text/javascript" src="{{ system.script_url }}/resource/ckeditor/ckeditor.js"></script>
 <script src="{{ system.script_url }}/resource/ckeditor/adapters/jquery.js"></script>
+<script src="{{ system.theme }}/js/yandex-translate.js"></script>
 <script type="text/javascript">
     $(document).ready(
             function()
@@ -129,6 +130,23 @@
             $('#remoteposter').removeClass('hidden');
         }
     }
+    function translateVideo(lang_source, lang_target, api_key) {
+        var title_source = $('#video_title_'+lang_source).val();
+        var text_source = $('#textobject'+lang_source).val();
+        if(text_source.length < 1)
+            text_source = CKEDITOR.instances['textobject'+lang_source].getData();
+        var desc_source = $('#video_desc_'+lang_source).val();
+        var keywords_source = $('#keywords_'+lang_source).val();
+
+        if(title_source.length > 0)
+            translateText(lang_source, lang_target, title_source, api_key, 'video_title_', false);
+        if(text_source.length > 0)
+            translateText(lang_source, lang_target, text_source, api_key, 'textobject', true);
+        if(desc_source.length > 0)
+            translateText(lang_source, lang_target, desc_source, api_key, 'video_desc_', false);
+        if(keywords_source.length > 0)
+            translateText(lang_source, lang_target, keywords_source, api_key, 'keywords_', false);
+    }
 </script>
 <h1>{{ extension.title }}<small>{{ language.admin_components_video_edit_title }}</small></h1>
 <hr />
@@ -185,6 +203,14 @@
         <ul class="nav nav-tabs">
             {% for itemlang in langs.all %}
                 <li{% if itemlang == langs.current %} class="active"{% endif %}><a href="#{{ itemlang }}" data-toggle="tab">{{ language.language }}: {{ itemlang|upper }}</a></li>
+                {% if itemlang != langs.current %}
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#" onclick="return translateVideo('{{ langs.current }}', '{{ itemlang }}', '{{ system.yandex_translate_key }}');">{{ language.admin_autotranslate }} <span class="label label-danger">{{ langs.current }}</span> -> <span class="label label-success">{{ itemlang }}</span></a></li>
+                        </ul>
+                    </li>
+                {% endif %}
             {% endfor %}
         </ul>
         <div class="tab-content">
@@ -193,7 +219,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h2>{{ language.admin_components_video_edit_vname_title }}[{{ itemlang }}]</h2>
-                        <input{% if itemlang == langs.current %} onkeyup="oJS.strNormalize(this)"{% endif %} type="text" name="title[{{ itemlang }}]" class="form-control" value="{{ video.title[itemlang] }}" maxlength="100" />
+                        <input{% if itemlang == langs.current %} onkeyup="oJS.strNormalize(this)"{% endif %} type="text" name="title[{{ itemlang }}]" class="form-control" value="{{ video.title[itemlang] }}" maxlength="100" id="video_title_{{ itemlang }}" />
                         <span class="help-block">{{ language.admin_components_video_edit_vname_desc }}</span>
                     </div>
                 </div>
@@ -206,12 +232,12 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <h2>{{ language.admin_components_video_edit_desc_title }}[{{ itemlang }}]</h2>
-                        <input type="text" name="description[{{ itemlang }}]" class="form-control" value="{{ video.description[itemlang] }}" maxlength="250" />
+                        <input type="text" name="description[{{ itemlang }}]" class="form-control" value="{{ video.description[itemlang] }}" maxlength="250" id="video_desc_{{ itemlang }}" />
                         <span class="help-block">{{ language.admin_components_video_edit_desc_desc }}</span>
                     </div>
                     <div class="col-lg-6">
                         <h2>{{ language.admin_components_video_edit_keywords_title }}[{{ itemlang }}]</h2>
-                        <input type="text" id="keywords[{{ itemlang }}]" name="keywords[{{ itemlang }}]" class="form-control" value="{{ video.keywords[itemlang] }}" maxlength="200" />
+                        <input type="text" id="keywords_{{ itemlang }}" name="keywords[{{ itemlang }}]" class="form-control" value="{{ video.keywords[itemlang] }}" maxlength="200" />
                         <input class="btn btn-info pull-right" type="button" value="Авто" onClick="countKeywords('{{ itemlang }}')">
                         <span class="help-block">{{ language.admin_components_video_edit_keywords_desc }}</span>
                     </div>
