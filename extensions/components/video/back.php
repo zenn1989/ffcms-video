@@ -40,7 +40,12 @@ class components_video_back {
     }
 
     public function _compatable() {
-        return '2.0.2';
+        return '2.0.3';
+    }
+
+    public function _update($from_version) {
+        // now have now changes in db so skip
+        database::getInstance()->con()->query("UPDATE ".property::getInstance()->get('db_prefix')."_extensions SET `version` = '1.0.1', `compatable` = '2.0.3' WHERE `type` = 'components' AND dir = 'video'");
     }
 
     public function install() {
@@ -352,7 +357,7 @@ class components_video_back {
         language::getInstance()->add($lang);
         // refresh configs
         $default_cfgs = 'a:12:{s:16:"count_video_page";s:2:"10";s:14:"enable_useradd";s:1:"0";s:14:"multi_category";s:1:"1";s:11:"enable_tags";s:1:"1";s:18:"count_similar_item";s:1:"4";s:9:"poster_dx";s:3:"480";s:9:"poster_dy";s:3:"360";s:10:"enable_rss";s:1:"1";s:9:"rss_count";s:2:"10";s:14:"enable_soc_rss";s:1:"0";s:8:"rss_hash";a:2:{s:2:"en";s:0:"";s:2:"ru";s:0:"";}s:17:"rss_soc_linkshort";s:1:"0";}';
-        $stmt = database::getInstance()->con()->prepare("UPDATE ".property::getInstance()->get('db_prefix')."_extensions SET `configs` = ?, `version` = '1.0.1', `compatable` = '2.0.2' WHERE `type` = 'components' AND dir = 'video'");
+        $stmt = database::getInstance()->con()->prepare("UPDATE ".property::getInstance()->get('db_prefix')."_extensions SET `configs` = ? WHERE `type` = 'components' AND dir = 'video'");
         $stmt->bindParam(1, $default_cfgs, \PDO::PARAM_STR);
         $stmt->execute();
         $stmt = null;
