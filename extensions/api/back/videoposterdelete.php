@@ -3,14 +3,7 @@
 use engine\permission;
 use engine\system;
 
-class api_videoposterdelete_back {
-    protected static $instance = null;
-
-    public static function getInstance() {
-        if(is_null(self::$instance))
-            self::$instance = new self();
-        return self::$instance;
-    }
+class api_videoposterdelete_back extends \engine\singleton {
 
     public function make() {
         if(!permission::getInstance()->have('admin/components/video/add') && !permission::getInstance()->have('admin/components/video/edit'))

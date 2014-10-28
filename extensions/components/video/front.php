@@ -18,18 +18,10 @@ use engine\meta;
 use engine\user;
 use engine\cache;
 
-class components_video_front {
-    protected static $instance = null;
+class components_video_front extends \engine\singleton {
     const ALLOWED_HTML_TAGS = "<p><a><img><img/><table><tr><td><tbody><thead><th><pre><iframe><span><strong><em><s><blockquote><ul><ol><li><h1><h2><h3><h4><div>";
     const RSS_UPDATE_TIME = 600;
     const RSS_ITEM_LIMIT = 10;
-
-    public static function getInstance() {
-        if(is_null(self::$instance)) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
 
     public function make() {
         template::getInstance()->set(template::TYPE_CONTENT, 'body', $this->buildVideo());
@@ -556,7 +548,8 @@ class components_video_front {
                 'id' => $row['id'],
                 'name' => $add . ' ' . $cname[language::getInstance()->getUseLanguage()],
                 'desc' => $cdesc[language::getInstance()->getUseLanguage()],
-                'path' => $path
+                'path' => $path,
+				'level' => $path == null ? 0 : $spliter_count + 1
             );
         }
         return $total_result;

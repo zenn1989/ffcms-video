@@ -18,8 +18,7 @@ use engine\extension;
 use engine\permission;
 use engine\csrf;
 
-class components_video_back {
-    protected static $instance = null;
+class components_video_back extends \engine\singleton {
 
     const ITEM_PER_PAGE = 10;
     const SEARCH_PER_PAGE = 50;
@@ -29,26 +28,20 @@ class components_video_back {
     const FILTER_IMPORTANT = 2;
     const FILTER_SEARCH = 3;
 
-    public static function getInstance() {
-        if(is_null(self::$instance))
-            self::$instance = new self();
-        return self::$instance;
-    }
-
     public function _version() {
         return '1.0.1';
     }
 
     public function _compatable() {
-        return '2.0.3';
+        return '2.0.4';
     }
 
     public function _update($from_version) {
         // now have now changes in db so skip
-        database::getInstance()->con()->query("UPDATE ".property::getInstance()->get('db_prefix')."_extensions SET `version` = '1.0.1', `compatable` = '2.0.3' WHERE `type` = 'components' AND dir = 'video'");
+        database::getInstance()->con()->query("UPDATE ".property::getInstance()->get('db_prefix')."_extensions SET `version` = '1.0.1', `compatable` = '2.0.4' WHERE `type` = 'components' AND dir = 'video'");
     }
 
-    public function install() {
+    public function _install() {
         $db_tables = "CREATE TABLE IF NOT EXISTS `".property::getInstance()->get('db_prefix')."_com_video_category` (
                       `category_id` int(24) NOT NULL AUTO_INCREMENT,
                       `name` text NOT NULL,
@@ -400,7 +393,7 @@ class components_video_back {
         template::getInstance()->set(template::TYPE_CONTENT, 'body', $content);
     }
 
-    public function accessData() {
+    public function _accessData() {
         return array(
             'admin/components/video',
             'admin/components/video/list',

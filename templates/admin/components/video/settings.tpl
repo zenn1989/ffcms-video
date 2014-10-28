@@ -1,5 +1,7 @@
 {% import 'macro/settings.tpl' as settingstpl %}
 {% import 'macro/notify.tpl' as notifytpl %}
+{% import 'macro/formdecorator.tpl' as formdecorator %}
+{{ formdecorator.switch(system.script_url) }}
 <h1>{{ extension.title }}<small>{{ language.admin_components_video_settings_title }}</small></h1>
 <hr />
 {% include 'components/video/menu_include.tpl' %}
